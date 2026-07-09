@@ -1,6 +1,6 @@
 'use client';
 
-import { auth } from '@/lib/firebase';
+import { getFirebaseAuth, isFirebaseConfigured } from '@/lib/firebase';
 import { signOut as firebaseSignOut, onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
@@ -17,6 +17,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isFirebaseConfigured) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    const auth = getFirebaseAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
@@ -25,7 +32,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOut = async () => {
-    await firebaseSignOut(auth);
+    if (!isFirebaseConfigured) {
+      if (typeof document !== 'undefined') {
+        document.cookie = 'codeacademy_session=; path=/; max-age=0; SameSite=Lax';
+      }
+      return;
+    }
+
+    await firebaseSignOut(getFirebaseAuth());
     if (typeof document !== 'undefined') {
       document.cookie = 'codeacademy_session=; path=/; max-age=0; SameSite=Lax';
     }

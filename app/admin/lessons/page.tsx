@@ -1,7 +1,7 @@
 "use client"
 import useAuth from '@/hooks/useAuth'
 import { isAdmin } from '@/lib/admin'
-import { db } from '@/lib/firebase'
+import { getFirebaseDb } from '@/lib/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useState } from 'react'
 
@@ -20,7 +20,8 @@ export default function AdminLessonsPage(){
     }
 
     try{
-      await addDoc(collection(db,'lessons'), { title, description, points })
+      const firestore = getFirebaseDb();
+      await addDoc(collection(firestore, 'lessons'), { title, description, points })
       setStatus('Aula criada com sucesso')
       setTitle(''); setDescription(''); setPoints(10)
     }catch(err){

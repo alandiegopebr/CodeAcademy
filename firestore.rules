@@ -1,21 +1,132 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow anyone to read lessons (but only admin can edit)
+    // ============ HELPER FUNCTIONS ============
+    
+    function isAdmin(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId)) && 
+             get(/databases/$(database)/documents/users/$(userId)).data.role == 'admin';
+    }
+
+    function isTeacher(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId)) && 
+             (get(/databases/$(database)/documents/users/$(userId)).data.role == 'teacher' ||
+              get(/databases/$(database)/documents/users/$(userId)).data.role == 'admin');
+    }
+
+    function isStudent(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId)) && 
+             get(/databases/$(database)/documents/users/$(userId)).data.role == 'student';
+    }
+
+    function isApprovedTeacher(userId) {
+      return exists(/databases/$(database)/documents/teachers/$(userId)) && 
+             get(/databases/$(database)/documents/teachers/$(userId)).data.status == 'approved';
+    }
+
+    function isTeacherOfClass(userId, classId) {
+      return exists(/databases/$(database)/documents/classes/$(classId)) &&
+             get(/databases/$(database)/documents/classes/$(classId)).data.teacherId == userId;
+    }
+
+    function isStudentInClass(userId, classId) {
+      return exists(/databases/$(database)/documents/classes/$(classId)) &&
+             userId in get(/databases/$(database)/documents/classes/$(classId)).data.studentIds;
+    }
+
+    function validEmail(email) {
+      return email.matches('[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}');
+    }
+
+    // ============ COLLECTION RULES ============
+
+    // Users collection - account info
+    match /users/{userId} {
+      allow read: if request.auth != null && 
+                    (request.auth.uid == userId || isAdmin(request.auth.uid));
+      allow create: if request.auth != null && request.auth.uid == userId &&
+                     request.resource.data.email == request.auth.token.email &&
+                     request.resource.data.role in ['student', 'teacher', 'admin'] &&
+                     request.resource.data.keys().hasAll(['email', 'role']);
+      allow update: if request.auth != null && request.auth.uid == userId &&
+                     !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']);
+    }
+
+    // Teachers collection - teacher approval requests
+    match /teachers/{teacherId} {
+      allow read: if request.auth != null && 
+                    (request.auth.uid == teacherId || isAdmin(request.auth.uid));
+      allow create: if request.auth != null && request.auth.uid == teacherId &&
+                     request.resource.data.keys().hasAll(['email', 'displayName', 'status', 'requestedAt']);
+      allow update: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
+    // Classes collection
+    match /classes/{classId} {
+      allow read: if request.auth != null && 
+                    (isTeacherOfClass(request.auth.uid, classId) || 
+                     isStudentInClass(request.auth.uid, classId) ||
+                     isAdmin(request.auth.uid));
+      allow create: if request.auth != null && isApprovedTeacher(request.auth.uid) &&
+                     request.resource.data.teacherId == request.auth.uid &&
+                     request.resource.data.keys().hasAll(['name', 'teacherId', 'studentIds']);
+      allow update, delete: if request.auth != null && 
+                             isTeacherOfClass(request.auth.uid, classId);
+    }
+
+    // Activities (lesson assignments per class)
+    match /activities/{activityId} {
+      allow read: if request.auth != null && 
+                    (isTeacherOfClass(request.auth.uid, resource.data.classId) ||
+                     isStudentInClass(request.auth.uid, resource.data.classId) ||
+                     isAdmin(request.auth.uid));
+      allow create, update, delete: if request.auth != null && 
+                                      isTeacherOfClass(request.auth.uid, resource.data.classId) &&
+                                      request.resource.data.keys().hasAll(['title', 'classId', 'points']);
+    }
+
+    // Activity completions
+    match /activityCompletions/{completionId} {
+      allow read: if request.auth != null && 
+                    (request.auth.uid == resource.data.studentId ||
+                     isTeacherOfClass(request.auth.uid, resource.data.classId) ||
+                     isAdmin(request.auth.uid));
+      allow create: if request.auth != null && 
+                     request.auth.uid == request.resource.data.studentId &&
+                     isStudentInClass(request.auth.uid, request.resource.data.classId);
+      allow update: if request.auth != null && 
+                     (request.auth.uid == resource.data.studentId ||
+                      isTeacherOfClass(request.auth.uid, resource.data.classId));
+    }
+
+    // Lessons (global content - admin only for write)
     match /lessons/{lessonId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null && request.auth.token.email == 'alandiegope123@gmail.com';
+      allow create, update, delete: if request.auth != null && isAdmin(request.auth.uid);
     }
 
-    // Allow anyone to read courses
+    // Courses (global content - admin only for write)
     match /courses/{courseId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null && request.auth.token.email == 'alandiegope123@gmail.com';
+      allow create, update, delete: if request.auth != null && isAdmin(request.auth.uid);
     }
 
-    // Allow each user to read/write their own user document (for XP tracking)
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    // Public leaderboard - users can only update their own
+    match /leaderboard/{userId} {
+      allow read: if true;
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // Class-specific leaderboard
+    match /classLeaderboards/{classId}/students/{studentId} {
+      allow read: if request.auth != null && 
+                    (request.auth.uid == studentId ||
+                     isTeacherOfClass(request.auth.uid, classId) ||
+                     isAdmin(request.auth.uid));
+      allow write: if request.auth != null && 
+                    (isTeacherOfClass(request.auth.uid, classId) ||
+                     isAdmin(request.auth.uid));
     }
 
     // Deny everything else by default

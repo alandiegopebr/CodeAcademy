@@ -7,25 +7,25 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-2',
-    title: 'Funções e Escopo',
+    title: 'Funções e escopo',
     description: 'Declaração de funções, parâmetros e escopo.',
     points: 15,
   },
   {
     id: 'lesson-3',
-    title: 'DOM e Eventos',
+    title: 'DOM e eventos',
     description: 'Interagindo com o DOM e manipulando eventos.',
     points: 20,
   },
   {
     id: 'lesson-4',
-    title: 'Arrays e Métodos',
+    title: 'Arrays e métodos',
     description: 'Trabalhando com arrays, map, filter, reduce.',
     points: 25,
   },
   {
     id: 'lesson-5',
-    title: 'Objetos e Destructuring',
+    title: 'Objetos e destructuring',
     description: 'Manipulando objetos e usando destructuring syntax.',
     points: 20,
   },
@@ -37,7 +37,7 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-7',
-    title: 'Componentes React Básicos',
+    title: 'Componentes React básicos',
     description: 'Criando componentes funcionais com React.',
     points: 25,
   },
@@ -49,14 +49,14 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-9',
-    title: 'Gerenciamento de Estado',
+    title: 'Gerenciamento de estado',
     description: 'Props, lifting state, Context API.',
     points: 30,
   },
   {
     id: 'lesson-10',
     title: 'Roteamento com Next.js',
-    description: 'App Router, layouts e pages dinâmicas.',
+    description: 'App Router, layouts e páginas dinâmicas.',
     points: 40,
   },
   {
@@ -67,8 +67,8 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-12',
-    title: 'CSS-in-JS com Tailwind',
-    description: 'Styling com Tailwind CSS e CSS customizado.',
+    title: 'CSS com Tailwind',
+    description: 'Estilização com Tailwind CSS e CSS customizado.',
     points: 20,
   },
   {
@@ -98,7 +98,7 @@ export const sampleLessons = [
   {
     id: 'lesson-17',
     title: 'Testes com Jest',
-    description: 'Unit testing e integration testing.',
+    description: 'Testes unitários e de integração.',
     points: 30,
   },
   {
@@ -121,7 +121,7 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-21',
-    title: 'Git e Versionamento',
+    title: 'Git e versionamento',
     description: 'Controle de versão com Git e GitHub.',
     points: 20,
   },
@@ -133,7 +133,7 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-23',
-    title: 'Docker e Containerização',
+    title: 'Docker e containerização',
     description: 'Criando e gerenciando containers Docker.',
     points: 45,
   },
@@ -169,13 +169,13 @@ export const sampleLessons = [
   },
   {
     id: 'lesson-29',
-    title: 'Projeto Final: App Completa',
+    title: 'Projeto final: app completo',
     description: 'Integrando tudo em um projeto real.',
     points: 100,
   },
   {
     id: 'lesson-30',
-    title: 'Code Review e Best Practices',
+    title: 'Code review e boas práticas',
     description: 'Escrevendo código limpo e profissional.',
     points: 25,
   },

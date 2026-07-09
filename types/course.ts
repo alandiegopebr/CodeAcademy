@@ -5,4 +5,5 @@ export interface Course {
   progress: string;
   duration: string;
   lessons: number;
+  level?: 'Iniciante' | 'Intermediário' | 'Avançado';
 }

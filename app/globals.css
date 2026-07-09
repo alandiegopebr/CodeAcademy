@@ -4,25 +4,582 @@
 
 :root {
   color-scheme: dark;
-  color: #eef2ff;
-  background-color: #0f172a;
+  color: #f8fafc;
+  background-color: #020617;
 }
 
-html, body {
+/* ==================== LIGHT MODE - PROFESSIONAL THEME ==================== */
+html.light {
+  color-scheme: light;
+  color: #1f2937;
+  background-color: #f9fafb;
+}
+
+html.light body {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #eff6ff 100%);
+  color: #1f2937;
+}
+
+/* Navigation */
+html.light nav {
+  @apply border-slate-200 bg-white shadow-sm;
+}
+
+html.light nav a {
+  @apply text-slate-700;
+}
+
+html.light nav a:hover {
+  @apply text-blue-600;
+}
+
+/* Cards */
+html.light .section-container {
+  @apply border-slate-200 bg-white shadow-sm hover:shadow-md;
+}
+
+html.light .card {
+  @apply border-slate-200 bg-white shadow-sm hover:shadow-md;
+}
+
+html.light .card-hover {
+  @apply hover:border-blue-300 hover:shadow-md hover:shadow-blue-100;
+}
+
+html.light .card-interactive {
+  @apply hover:border-blue-400 hover:shadow-lg hover:shadow-blue-200 hover:scale-105;
+}
+
+html.light .blur-glass {
+  @apply border-slate-200 bg-white/90 shadow-sm;
+}
+
+/* Buttons */
+html.light .btn-primary {
+  @apply bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg hover:shadow-blue-300/40;
+  color: #ffffff;
+}
+
+html.light .btn-secondary {
+  @apply border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-slate-50;
+}
+
+html.light .btn-ghost {
+  @apply text-slate-600 hover:text-slate-900 hover:bg-slate-100;
+}
+
+/* Inputs */
+html.light .input-field {
+  @apply border-slate-300 bg-white text-slate-900 shadow-sm placeholder-slate-400;
+  @apply focus:border-blue-500 focus:bg-blue-50 focus:shadow-md focus:shadow-blue-200;
+}
+
+html.light .textarea-field {
+  @apply border-slate-300 bg-white text-slate-900 shadow-sm placeholder-slate-400;
+  @apply focus:border-blue-500 focus:bg-blue-50 focus:shadow-md focus:shadow-blue-200;
+}
+
+html.light input,
+html.light textarea,
+html.light select {
+  border-color: #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+html.light select::placeholder {
+  color: #9ca3af;
+}
+
+html.light input:focus,
+html.light textarea:focus,
+html.light select:focus {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+html.light input:disabled,
+html.light textarea:disabled,
+html.light select:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+}
+
+/* Text Colors */
+html.light .text-muted {
+  color: #4b5563;
+}
+
+html.light .section-label {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+html.light .section-title {
+  color: #111827;
+  font-weight: 700;
+}
+
+html.light .section-subtitle {
+  color: #374151;
+  font-weight: 600;
+}
+
+html.light .text-accent {
+  color: #2563eb;
+}
+
+html.light .gradient-text {
+  background: linear-gradient(to right, #1e40af, #1e3a8a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Badges */
+html.light .badge-primary {
+  @apply bg-blue-100 text-blue-800;
+}
+
+html.light .badge-success {
+  @apply bg-green-100 text-green-800;
+}
+
+html.light .badge-warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+html.light .badge-danger {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Toggles and switches */
+html.light input[type="checkbox"],
+html.light input[type="radio"] {
+  @apply accent-blue-600;
+}
+
+/* Links */
+html.light a {
+  color: #2563eb;
+}
+
+html.light a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Sidebar */
+html.light .sidebar {
+  @apply bg-white border-slate-200;
+}
+
+html.light .sidebar a {
+  @apply text-slate-700 hover:text-blue-600 hover:bg-blue-50;
+}
+
+/* placeholder colors for input/textarea/select (dark mode defaults overridden here) */
+.input-field::placeholder,
+.textarea-field::placeholder,
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: rgba(229, 231, 235, 0.6);
+}
+
+html {
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, rgba(56, 189, 248, .14), transparent 34%),
+  background: radial-gradient(circle at top, rgba(34, 211, 238, 0.16), transparent 30%),
     linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  color: #f8fafc;
 }
 
 * {
   box-sizing: border-box;
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   font: inherit;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==================== REUSABLE COMPONENTS ==================== */
+@layer components {
+  /* CARDS */
+  .card {
+    @apply rounded-3xl border border-slate-800 bg-slate-950/70 p-6 transition duration-300 backdrop-blur-sm;
+  }
+
+  .card-hover {
+    @apply card hover:border-cyan-500 hover:bg-slate-900/90 hover:shadow-lg hover:shadow-cyan-500/10;
+  }
+
+  .card-interactive {
+    @apply card-hover cursor-pointer transform hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/20;
+  }
+
+  /* BUTTONS */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-cyan-500 to-cyan-600 text-slate-950 hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40;
+  }
+
+  .btn-secondary {
+    @apply btn border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50;
+    color: #f8fafc;
+  }
+
+  .btn-ghost {
+    @apply btn hover:bg-slate-800/30;
+    color: #cbd5e1;
+    transition: color .2s ease;
+  }
+
+  .btn-ghost:hover {
+    color: #f8fafc;
+  }
+
+  .btn-sm {
+    @apply px-3 py-2 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-4 text-base;
+  }
+
+  /* INPUTS */
+  .input-field {
+    @apply w-full rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-3 outline-none transition-all duration-200;
+    color: #e6eef8;
+    caret-color: #e6eef8;
+    @apply focus:border-cyan-500 focus:bg-slate-950 focus:shadow-lg focus:shadow-cyan-500/10;
+  }
+
+  .textarea-field {
+    @apply w-full rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-3 outline-none transition-all duration-200 resize-none;
+    color: #e6eef8;
+    caret-color: #e6eef8;
+  }
+
+  /* TEXT */
+  .section-title {
+    @apply text-3xl font-bold;
+    color: #f8fafc;
+  }
+
+  .section-subtitle {
+    @apply text-lg font-semibold;
+    color: #e2e8f0;
+  }
+
+  .text-muted {
+    @apply text-sm text-slate-400;
+  }
+
+  .text-accent {
+    @apply text-cyan-400;
+  }
+
+  /* BADGES */
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-cyan-500/20 text-cyan-300;
+  }
+
+  .badge-success {
+    @apply badge bg-green-500/20 text-green-300;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-500/20 text-yellow-300;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-500/20 text-red-300;
+  }
+
+  /* GRADIENTS */
+  .gradient-text {
+    @apply bg-gradient-to-r from-cyan-400 via-slate-200 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(6, 182, 212, 0.8);
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.5s ease-out;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* SECTIONS */
+  .section-container {
+    @apply mx-auto max-w-6xl rounded-[2rem] border border-slate-800 bg-slate-900/80 p-8 shadow-xl shadow-slate-950/40 backdrop-blur-sm sm:p-10;
+  }
+
+  .section-header {
+    @apply mb-8 space-y-3;
+  }
+
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-widest text-cyan-300;
+  }
+
+  /* GRID */
+  .grid-responsive {
+    @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  /* UTILITIES */
+  .blur-glass {
+    @apply rounded-3xl border border-slate-700/50 bg-slate-950/30 backdrop-blur-xl;
+  }
+
+  /* SMOOTH TRANSITIONS */
+  @keyframes smoothSlide {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .animate-smoothSlide {
+    animation: smoothSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.4), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* ENHANCED TRANSITIONS */
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  button {
+    @apply transition-all duration-300;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply transition-all duration-300;
+  }
+
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  /* IMPROVED FOCUS STATES */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-cyan-500/50;
+  }
+
+  /* SMOOTH PAGE TRANSITIONS */
+  .page-enter {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .page-exit {
+    animation: fadeIn 0.3s ease-out reverse;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ==================== LIGHT MODE OVERRIDES (FINAL) ==================== */
+html.light, html.light body {
+  color-scheme: light;
+}
+
+html.light body {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #eff6ff 100%) !important;
+  color: #0f172a !important;
+}
+
+/* Ensure cards and sections are bright */
+html.light .card,
+html.light .card-hover,
+html.light .card-interactive,
+html.light .section-container,
+html.light .blur-glass {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  color: #0f172a !important;
+  box-shadow: 0 6px 18px rgba(17,24,39,0.06) !important;
+}
+
+/* Buttons */
+html.light .btn-primary {
+  background-image: linear-gradient(90deg,#2563eb 0%,#1e40af 100%) !important;
+  color: #ffffff !important;
+}
+html.light .btn-secondary {
+  background-color: transparent !important;
+  border-color: #d1d5db !important;
+  color: #0f172a !important;
+}
+html.light .btn-ghost {
+  color: #0f172a !important;
+  background: transparent !important;
+}
+
+/* Inputs */
+html.light .input-field,
+html.light .textarea-field,
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  color: #0f172a !important;
+}
+
+/* Navigation & sidebar */
+html.light nav,
+html.light .sidebar {
+  background: #ffffff !important;
+  border-color: #e6e9ee !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(15,23,42,0.04) !important;
+}
+
+html.light nav a,
+html.light .sidebar a,
+html.light a {
+  color: #1d4ed8 !important;
+}
+
+/* Text */
+html.light .section-title,
+html.light .section-subtitle,
+html.light .text-muted,
+html.light p,
+html.light span,
+html.light label {
+  color: #0f172a !important;
+}
+
+/* Force remove dark backgrounds on utility classes used across the app */
+html.light .bg-slate-950,
+html.light .bg-slate-900,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-900\/90 {
+  background: transparent !important;
+}
+
+/* removed redefinition of utility classes to avoid circular @apply errors */
+
+/* final safety: ensure body-level font color */
+html.light * {
+  color: inherit;
+}
+

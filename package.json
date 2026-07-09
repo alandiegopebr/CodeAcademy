@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "netlify-build": "next build",
     "lint": "next lint"
   },
   "dependencies": {
     "firebase": "^10.11.0",
+    "firebase-admin": "^14.1.0",
+    "framer-motion": "^12.42.2",
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -21,6 +24,16 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.37",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "@netlify/plugin-nextjs": "^5.0.0",
+    "netlify-cli": "^12.0.0"
+  }
+  ,
+  "plugins": {
+    "netlify": ["@netlify/plugin-nextjs"]
+  }
+  ,
+  "engines": {
+    "node": ">=18"
   }
 }
