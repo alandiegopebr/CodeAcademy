@@ -1,11 +1,4 @@
-export type Course = {
-  id: string;
-  title: string;
-  description: string;
-  progress: string;
-  duration: string;
-  lessons: number;
-};
+import type { Course } from '@/types/course';
 
 export const courses: Course[] = [
   {
